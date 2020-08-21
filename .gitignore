@@ -1,0 +1,22 @@
+*.class
+.gradle
+/build/
+/bin/
+/.settings/
+.project
+.classpath
+.idea
+
+# Package Files
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+*.war
+*.ear
+
+# Serverless directories
+.serverless
+
+# Non commitable code folder
+.ungitted
+
+node_modules
