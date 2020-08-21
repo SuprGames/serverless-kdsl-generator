@@ -119,11 +119,12 @@ Will generate the following entry in the Serverless.yml file when the generation
 
 ## Using Serverless KDSL Generator as a Gradle Task
 
-*The preferred way to use the library*
+>***The preferred way to use the library***
 
 Add the following to your build.gradle.kts
 
  * 1) Make sure you have the `java` plugin in place, since we are going to run our generator as a JavaExec task
+ 
 ```
 plugins {
 	//...
@@ -131,8 +132,10 @@ plugins {
 	java
 	//...
 }
+```
 
  * 2) The repository where we have the components published is jitpack, so you will need to add it to your repositories list
+ 
 ```
 repositories {
     mavenCentral()
@@ -143,6 +146,7 @@ repositories {
 ```
 
  * 3) Create the `JavaExec` task
+ 
  ```
 task<JavaExec>("generate-serverless") {
     main = "io.suprgames.serverless.ServerlessDSLGeneratorMain"
