@@ -9,7 +9,11 @@ The current version of Serverless K-DSL supports the generation of the following
 * Sqs Consumers
 * EventBridge Listeners
 
-The generator makes use of the Serverless-KDSL annotations
+The generator makes use of the Serverless-KDSL annotations library
+
+In this README you can find:
+* How to use the Annotations
+* How to generate your code Using the Generator as a Gradle Task
 
 ### HTTP Functions:
 Serverless K-DSL supports the generation of HTTP functions in Serverless, the methods GET, POST, PUT and DELETE are supported. 
@@ -119,11 +123,12 @@ Will generate the following entry in the Serverless.yml file when the generation
 
 ## Using Serverless KDSL Generator as a Gradle Task
 
-*The preferred way to use the library*
+>***The preferred way to use the library***
 
 Add the following to your build.gradle.kts
 
  * 1) Make sure you have the `java` plugin in place, since we are going to run our generator as a JavaExec task
+ 
 ```
 plugins {
 	//...
@@ -131,8 +136,10 @@ plugins {
 	java
 	//...
 }
+```
 
  * 2) The repository where we have the components published is jitpack, so you will need to add it to your repositories list
+ 
 ```
 repositories {
     mavenCentral()
@@ -143,6 +150,7 @@ repositories {
 ```
 
  * 3) Create the `JavaExec` task
+ 
  ```
 task<JavaExec>("generate-serverless") {
     main = "io.suprgames.serverless.ServerlessDSLGeneratorMain"
