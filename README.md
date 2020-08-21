@@ -9,7 +9,11 @@ The current version of Serverless K-DSL supports the generation of the following
 * Sqs Consumers
 * EventBridge Listeners
 
-The generator makes use of the Serverless-KDSL annotations
+The generator makes use of the Serverless-KDSL annotations library
+
+In this README you can find:
+* How to use the Annotations
+* How to generate your code Using the Generator as a Gradle Task
 
 ### HTTP Functions:
 Serverless K-DSL supports the generation of HTTP functions in Serverless, the methods GET, POST, PUT and DELETE are supported. 
