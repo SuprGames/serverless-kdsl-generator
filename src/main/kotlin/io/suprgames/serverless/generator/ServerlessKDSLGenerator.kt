@@ -40,6 +40,7 @@ class ServerlessKDSLGenerator(
                         .append(sqsConsumers(reflections))
                         .append(httpFunctions(reflections))
                         .append(eventBridgeListeners(reflections))
+                        .append(authorizerFunctions(reflections))
                         .appendln()
                         .appendln(signature())
                         .toString()

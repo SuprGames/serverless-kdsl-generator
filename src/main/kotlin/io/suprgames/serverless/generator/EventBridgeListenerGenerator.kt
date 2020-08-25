@@ -16,14 +16,14 @@ import org.reflections.Reflections
  */
 fun eventBridgeListeners(reflections: Reflections): StringBuffer =
         reflections.getTypesAnnotatedWith(EventBridgeListener::class.java)
-                .let {
+                .let { classesWithAnnotation ->
                     val stringBuffer = StringBuffer()
-                    println("      Generating [${it.size}] Event Bridge Listeners...")
-                    it.forEach {
-                        println("        ${it.simpleName}")
-                        val annotation = it.getAnnotation(EventBridgeListener::class.java)
-                        stringBuffer.appendln("  ${name(annotation.name, it.simpleName)}:")
-                        stringBuffer.appendln("    handler: ${it.name}")
+                    println("      Generating [${classesWithAnnotation.size}] Event Bridge Listeners...")
+                    classesWithAnnotation.forEach { annotatedClass ->
+                        println("        ${annotatedClass.simpleName}")
+                        val annotation = annotatedClass.getAnnotation(EventBridgeListener::class.java)
+                        stringBuffer.appendln("  ${name(annotation.name, annotatedClass.simpleName)}:")
+                        stringBuffer.appendln("    handler: ${annotatedClass.name}")
                         stringBuffer.appendln("    events:")
                         stringBuffer.appendln("      - eventBridge:")
                         stringBuffer.appendln("          eventBus: ${annotation.eventBusArn}")

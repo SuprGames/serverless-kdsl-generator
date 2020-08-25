@@ -13,14 +13,14 @@ import org.reflections.Reflections
  */
 fun sqsConsumers(reflections: Reflections): StringBuffer =
         reflections.getTypesAnnotatedWith(SqsConsumer::class.java)
-                .let {
+                .let { classesWithAnnotation ->
                     val stringBuffer = StringBuffer()
-                    println("      Generating [${it.size}] Sqs consumers...")
-                    it.forEach {
-                        println("        ${it.simpleName}")
-                        val annotation = it.getAnnotation(SqsConsumer::class.java)
-                        stringBuffer.appendln("  ${name(annotation.name, it.simpleName)}:")
-                        stringBuffer.appendln("    handler: ${it.name}")
+                    println("      Generating [${classesWithAnnotation.size}] Sqs consumers...")
+                    classesWithAnnotation.forEach { annotatedClass ->
+                        println("        ${annotatedClass.simpleName}")
+                        val annotation = annotatedClass.getAnnotation(SqsConsumer::class.java)
+                        stringBuffer.appendln("  ${name(annotation.name, annotatedClass.simpleName)}:")
+                        stringBuffer.appendln("    handler: ${annotatedClass.name}")
                         stringBuffer.appendln("    events:")
                         stringBuffer.appendln("      - sqs:")
                         stringBuffer.appendln("          arn: ${annotation.sqsArn}")

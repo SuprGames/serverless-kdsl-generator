@@ -13,14 +13,14 @@ import org.reflections.Reflections
  */
 fun websocketConnectors(reflections: Reflections): StringBuffer =
         reflections.getTypesAnnotatedWith(WebSocketConnector::class.java)
-                .let {
+                .let { classesWithAnnotation ->
                     val stringBuffer = StringBuffer()
-                    println("      Generating [${it.size}] WebSocket connectors...")
-                    it.forEach {
-                        println("        ${it.simpleName}")
-                        val annotation = it.getAnnotation(WebSocketConnector::class.java)
-                        stringBuffer.appendln("  ${name(annotation.name, it.simpleName)}:")
-                        stringBuffer.appendln("    handler: ${it.name}")
+                    println("      Generating [${classesWithAnnotation.size}] WebSocket connectors...")
+                    classesWithAnnotation.forEach { annotatedClass ->
+                        println("        ${annotatedClass.simpleName}")
+                        val annotation = annotatedClass.getAnnotation(WebSocketConnector::class.java)
+                        stringBuffer.appendln("  ${name(annotation.name, annotatedClass.simpleName)}:")
+                        stringBuffer.appendln("    handler: ${annotatedClass.name}")
                         stringBuffer.appendln("    events:")
                         stringBuffer.appendln("      - websocket:")
                         stringBuffer.appendln("          route: ${annotation.route}")
