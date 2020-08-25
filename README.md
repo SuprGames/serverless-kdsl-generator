@@ -4,7 +4,7 @@ Serverless K-DSL is a small library that allows the generation of some of the Se
 
 The current version of Serverless K-DSL supports the generation of the following type of functions:
 
-* HTTP Functions
+* HTTP Functions, now with basic CORS support
 * WebSocket Connectors
 * Sqs Consumers
 * EventBridge Listeners
@@ -25,7 +25,7 @@ Serverless K-DSL supports the generation of HTTP functions in Serverless, the me
 ```
 package io.suprgames.player
 
-@HttpFunction(name = "register-player", method = HttpMethod.POST, path = "player/register")
+@HttpFunction(name = "register-player", method = HttpMethod.POST, path = "player/register", cors = true)
 class RegisterPlayerHandler : RequestHandler<Map<String, Any>, ApiGatewayResponse> {
 
 // Code here
@@ -40,6 +40,7 @@ Will generate the following entry in the Serverless.yml file when the generation
     events:
       - http:
           path: player/register
+          cors: true
           method: post
 ```
 
