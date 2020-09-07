@@ -9,9 +9,6 @@ data class TestEvent1(val player: String, val amount: Long)
 @EventBridgeListener(eventBusArn = "arnForEventBus", eventToListen = TestEvent1::class)
 class TestEventBridgeListener1
 
-@EventBridgeListener(name= "TestEventBridge", eventBusArn = "arnForEventBus", eventToListen = TestEvent1::class)
-class TestEventBridgeListener2
-
 class EventBridgeListenerGeneratorTest {
 
     @Test
@@ -27,19 +24,4 @@ class EventBridgeListenerGeneratorTest {
         expected.appendln("              - 'io.suprgames.serverless.generator.TestEvent1'")
         assertEquals(expected.toString(), eventBridgeListeners(reflections).toString())
     }
-
-    @Test
-    fun `The generated EventBridge listener with specific name should be like the expected`() {
-        val expected = StringBuffer()
-        expected.appendln("  TestEventBridge:")
-        expected.appendln("    handler: io.suprgames.serverless.generator.TestEventBridgeListener2")
-        expected.appendln("    events:")
-        expected.appendln("      - eventBridge:")
-        expected.appendln("          eventBus: arnForEventBus")
-        expected.appendln("          pattern:")
-        expected.appendln("            detail-type:")
-        expected.appendln("              - 'io.suprgames.serverless.generator.TestEvent1'")
-        assertEquals(expected.toString(), eventBridgeListeners(reflections).toString())
-    }
-
 }
