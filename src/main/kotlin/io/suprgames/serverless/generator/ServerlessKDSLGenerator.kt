@@ -41,6 +41,7 @@ class ServerlessKDSLGenerator(
                         .append(httpFunctions(reflections))
                         .append(eventBridgeListeners(reflections))
                         .append(authorizerFunctions(reflections))
+                        .append(cognitoPoolTriggeredFunctions(reflections))
                         .appendln()
                         .appendln(signature())
                         .toString()
