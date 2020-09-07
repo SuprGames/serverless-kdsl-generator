@@ -23,6 +23,14 @@ repositories {
 dependencies {
     implementation("io.suprgames:serverless-kdsl:v0.5.0")
     implementation("org.reflections:reflections:0.9.12")
+    testLibraries()
+}
+
+fun DependencyHandlerScope.testLibraries() {
+    testImplementation(kotlin("test-junit"))
+    testImplementation("org.mockito:mockito-core:3.3.3")
+    testImplementation("com.github.stefanbirkner:system-rules:1.19.0")
+    testImplementation("org.yaml:snakeyaml:1.26")
 }
 
 tasks {
