@@ -31,6 +31,7 @@ fun DependencyHandlerScope.testLibraries() {
     testImplementation("org.mockito:mockito-core:3.3.3")
     testImplementation("com.github.stefanbirkner:system-rules:1.19.0")
     testImplementation("org.yaml:snakeyaml:1.26")
+    testImplementation("com.amazonaws:aws-lambda-java-core:1.2.1")
 }
 
 tasks {
