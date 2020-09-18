@@ -63,7 +63,7 @@ class ServerlessKDSLGenerator(
             reflections.getTypesAnnotatedWith(clazz)
                     .let { classesWithAnnotation ->
                         val stringBuffer = StringBuffer()
-                        println("      Generating [${classesWithAnnotation.size}] ${clazz.name} for Class...")
+                        println("      Generating [${classesWithAnnotation.size}] ${clazz.simpleName} for Class...")
                         classesWithAnnotation.forEach { annotatedClass ->
                             val annotation = annotatedClass.getAnnotation(clazz)
                             val defaultName = annotatedClass.simpleName
@@ -77,7 +77,7 @@ class ServerlessKDSLGenerator(
             reflections.getMethodsAnnotatedWith(clazz)
                     .let { methodsWithAnnotation ->
                         val stringBuffer = StringBuffer()
-                        println("      Generating [${methodsWithAnnotation.size}] ${clazz.name} for Methods...")
+                        println("      Generating [${methodsWithAnnotation.size}] ${clazz.simpleName} for Methods...")
                         methodsWithAnnotation.forEach { annotatedMethod ->
                             val annotation = annotatedMethod.getAnnotation(clazz)
                             val defaultName = annotatedMethod.declaringClass.simpleName + "-" + annotatedMethod.name
