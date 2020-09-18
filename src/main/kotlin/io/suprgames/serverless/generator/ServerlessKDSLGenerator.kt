@@ -2,6 +2,7 @@ package io.suprgames.serverless.generator
 
 import io.suprgames.serverless.*
 import org.reflections.Reflections
+import org.reflections.scanners.MethodAnnotationsScanner
 import org.reflections.scanners.SubTypesScanner
 import org.reflections.scanners.TypeAnnotationsScanner
 import org.reflections.util.ClasspathHelper
@@ -24,13 +25,13 @@ class ServerlessKDSLGenerator(
         println("    Serverless file : $serverlessFile")
         println("************************************************************")
 
+        println("    Setting package scanner")
+
         val reflections =
                 Reflections(
                         ConfigurationBuilder()
                                 .setUrls(ClasspathHelper.forPackage(basePackage))
-                                .setScanners(SubTypesScanner(), TypeAnnotationsScanner()))
-
-        println("    Setting package scanner")
+                                .setScanners(SubTypesScanner(), TypeAnnotationsScanner(), MethodAnnotationsScanner()))
 
         Files.write(
                 Paths.get("serverless.yml"),
