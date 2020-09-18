@@ -22,6 +22,7 @@ class EventBridgeListenerGeneratorTest {
         expected.appendln("          pattern:")
         expected.appendln("            detail-type:")
         expected.appendln("              - 'io.suprgames.serverless.generator.TestEvent1'")
-        assertEquals(expected.toString(), eventBridgeListeners(reflections).toString())
+        val sb = ServerlessKDSLGenerator().generate(reflections, EventBridgeListener::class.java, EventBridgeListenerGenerator())
+        assertEquals(expected.toString(), sb.toString())
     }
 }
