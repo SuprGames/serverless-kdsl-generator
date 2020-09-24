@@ -46,6 +46,7 @@ class ServerlessKDSLGenerator(
                         .append(generate(reflections, EventBridgeListener::class.java, EventBridgeListenerGenerator()))
                         .append(generate(reflections, AuthorizerFunction::class.java, AuthorizationFunctionGenerator()))
                         .append(generate(reflections, CognitoUserPoolTriggered::class.java, CognitoGenerator()))
+                        .append(generate(reflections, MinionFunction::class.java, MinionFunctionGenerator()))
                         .appendln()
                         .appendln(signature())
                         .toString()
