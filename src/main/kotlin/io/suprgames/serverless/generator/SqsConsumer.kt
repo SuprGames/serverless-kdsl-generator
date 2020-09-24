@@ -1,8 +1,6 @@
 package io.suprgames.serverless.generator
 
-import io.suprgames.serverless.EventBridgeListener
 import io.suprgames.serverless.SqsConsumer
-import org.reflections.Reflections
 
 class SqsConsumerGenerator : Generator {
     /**
