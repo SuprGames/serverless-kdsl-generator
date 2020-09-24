@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.suprgames:serverless-kdsl:v0.6.0")
+    implementation("io.suprgames:serverless-kdsl:v0.7.0")
     implementation("org.reflections:reflections:0.9.12")
     testLibraries()
 }
