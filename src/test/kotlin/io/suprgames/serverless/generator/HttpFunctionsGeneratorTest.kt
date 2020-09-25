@@ -8,8 +8,6 @@ import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.nodes.*
 import java.io.StringReader
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-import kotlin.test.fail
 
 @HttpFunction("", HttpMethod.GET, "example1")
 class HttpHandlerClassExample {
@@ -37,7 +35,7 @@ class HttpFunctionsGeneratorTest {
 
     @Test
     fun `The generated HTTP functions should be like the expected`() {
-        val mappingNode = (Yaml().compose(StringReader(httpFunctions(reflections).toString())) as MappingNode)
+        val mappingNode = (Yaml().compose(StringReader(httpFunctions(reflections, true).toString())) as MappingNode)
         mappingNode.nodeByName("http-handler-class-example").let { handler ->
             assertEquals("io.suprgames.serverless.generator.HttpHandlerClassExample", (handler.valueNode.nodeByName("handler").valueNode as ScalarNode).value)
             (handler.valueNode.nodeByName("events").valueNode as CollectionNode<*>).value.let { events ->
