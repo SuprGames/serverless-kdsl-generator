@@ -97,7 +97,7 @@ private fun generateHttpEntry(entryName: String, handlerName: String, annotation
 }
 
 private fun generateDynamicArn(name: String): String =
-        "arn:aws:lambda:\${self:provider.region}:#{AWS::AccountId}:function:\${self:environment.app}-\${self:environment.stage}-$name"
+        "arn:aws:lambda:\${self:provider.region}:#{AWS::AccountId}:function:\${self:provider.environment.app}-\${self:provider.stage}-$name"
 
 private fun authorizerAnnotationByName(reflections: Reflections, authorizerName: String): AuthorizerFunction? =
         reflections.getTypesAnnotatedWith(AuthorizerFunction::class.java).map { it.getAnnotation(AuthorizerFunction::class.java) }.find { it.name == authorizerName }
