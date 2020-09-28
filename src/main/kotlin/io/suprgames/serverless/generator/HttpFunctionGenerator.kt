@@ -51,7 +51,7 @@ private fun httpFunctionsForMethods(reflections: Reflections, alterEgoPhase: Boo
 
 private fun generateHttpEntry(entryName: String, handlerName: String, annotation: HttpFunction, reflections: Reflections, eaf: ExistingAuthorizerFunction?, alterEgo: AlterEgo?, alterEgoPhase: Boolean): StringBuffer {
     val sb = StringBuffer()
-    if (alterEgoPhase && alterEgo==null || !alterEgoPhase && alterEgo!=null) {
+    if (alterEgoPhase && alterEgo == null || !alterEgoPhase && alterEgo != null) {
         return sb
     }
     sb.appendln("  $entryName:")
@@ -77,17 +77,15 @@ private fun generateHttpEntry(entryName: String, handlerName: String, annotation
         sb.appendln("          cors: ${annotation.cors}")
     }
     if (annotation.authorizer.isNotBlank()) {
-        authorizerAnnotationByName(reflections, annotation.authorizer).let { aa ->
-            if (aa == null) {
-                println("WARNING: Not able to find ExistingAuthorizerFunction or AuthorizerFunction mentioned in $handlerName")
-            } else {
-                if (alterEgo!=null && alterEgoPhase) {
-                    sb.append(registerAuthorizer("arn", generateDynamicArn(aa.name), aa.ttl, aa.identitySources, aa.identityValidationExpression, aa.type))
-                } else {
-                    sb.append(registerAuthorizer("name", aa.name, aa.ttl, aa.identitySources, aa.identityValidationExpression, aa.type))
+        authorizerAnnotationByName(reflections, annotation.authorizer)
+                ?.let { (authorizer, authorizerIsAlterEgo) ->
+                    if ((alterEgo != null && alterEgoPhase && authorizerIsAlterEgo) || (alterEgo == null && !alterEgoPhase && !authorizerIsAlterEgo)) {
+                        sb.append(registerAuthorizer("name", authorizer.name, authorizer.ttl, authorizer.identitySources, authorizer.identityValidationExpression, authorizer.type))
+                    } else {
+                        sb.append(registerAuthorizer("arn", generateDynamicArn(authorizer.name), authorizer.ttl, authorizer.identitySources, authorizer.identityValidationExpression, authorizer.type))
+                    }
                 }
-            }
-        }
+                ?: println("WARNING: Not able to find ExistingAuthorizerFunction or AuthorizerFunction mentioned in $handlerName")
     }
     if (eaf != null) {
         sb.append(registerAuthorizer("arn", eaf.arn, eaf.ttl, eaf.identitySources, eaf.identityValidationExpression, eaf.type))
@@ -99,8 +97,24 @@ private fun generateHttpEntry(entryName: String, handlerName: String, annotation
 private fun generateDynamicArn(name: String): String =
         "arn:aws:lambda:\${self:provider.region}:#{AWS::AccountId}:function:\${self:provider.environment.app}-\${self:provider.stage}-$name"
 
-private fun authorizerAnnotationByName(reflections: Reflections, authorizerName: String): AuthorizerFunction? =
-        reflections.getTypesAnnotatedWith(AuthorizerFunction::class.java).map { it.getAnnotation(AuthorizerFunction::class.java) }.find { it.name == authorizerName }
+/**
+ * The AuthorizerAnnotationByName will retrieve the authorizer function annotation for class or method, if it doesn't
+ * exists will return null
+ *
+ * @param reflections The reflection manager
+ * @param authorizerName The name of the authorizer we are trying to find
+ *
+ * @return The AuthorizerFunction annotation, null if it is not present
+ */
+private fun authorizerAnnotationByName(reflections: Reflections, authorizerName: String): Pair<AuthorizerFunction, Boolean>? =
+        reflections
+                .getTypesAnnotatedWith(AuthorizerFunction::class.java)
+                .map { it.getAnnotation(AuthorizerFunction::class.java) to it.isAnnotationPresent(AlterEgo::class.java) }
+                .find { it.first.name == authorizerName }
+                ?: reflections
+                        .getMethodsAnnotatedWith(AuthorizerFunction::class.java)
+                        .map { it.getAnnotation(AuthorizerFunction::class.java) to it.isAnnotationPresent(AlterEgo::class.java) }
+                        .find { it.first.name == authorizerName }
 
 private fun registerAuthorizer(idType: String, id: String, ttl: Long, identitySources: Array<String>, idValExp: String, type: AuthorizerFunctionType): StringBuffer {
     val stringBuffer = StringBuffer()
